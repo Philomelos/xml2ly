@@ -30,17 +30,20 @@ class NoteInterface(object):
         return '4..'
 
     @property
-    def template(self):
+    def template(self, indent=0):
         return '{before}{pitch}{duration}{voice}'
 
     @property
     def before(self):
         # All methods which collect multiple items and joins them
-        # must provide a default return value ''
+        #     must provide a default return value '' ?
         result = []
         for x in range(0, 4):
             result.append(str(x))
         return '.'.join(result)
+
+    def indent(self, indent=0):
+        return '\t' * indent
 
     @property
     def parameters(self):
@@ -52,9 +55,9 @@ class NoteInterface(object):
             }
 
     @property
-    def lilypond_format(self):
+    def lilypond_format(self, indent=0):
         if self.pitch and not self.is_rest:
-            return self.template.format(**self.parameters)
+            return self.indent(indent) + self.template.format(**self.parameters)
         elif self.is_rest:
             return 'r4' 
 
