@@ -1,0 +1,5 @@
+*.pyc
+*.txt
+*.ly
+*__pycache__
+.DS_Store
