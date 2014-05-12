@@ -11,37 +11,37 @@ filename = '/Users/fredrik/Documents/voice_test.xml'
 
 import resources.musicxml
 
-from headers.credit import CreditMixin
-from headers.header import HeaderMixin
+from headers.credit        import CreditMixin
+from headers.header        import HeaderMixin
 from music_data.attributes import AttributesMixin
-from music_data.backup import BackupMixin
-from music_data.barline import BarlineMixin
-from music_data.direction import DirectionMixin
-from music_data.forward import ForwardMixin
-from music_data.note import NoteMixin
-from music_data.pitch import PitchMixin
-from music_data.print_ import PrintMixin
-from music_data.sound import SoundMixin
-from part.part import PartMixin
-from part_list.part_group import PartGroupMixin
-from part_list.score_part import ScorePartMixin
-from score_partwise import ScorePartWiseMixin
+from music_data.backup     import BackupMixin
+from music_data.barline    import BarlineMixin
+from music_data.direction  import DirectionMixin
+from music_data.forward    import ForwardMixin
+from music_data.note       import NoteMixin
+from music_data.pitch      import PitchMixin
+from music_data.print_     import PrintMixin
+from music_data.sound      import SoundMixin
+from part.part             import PartMixin
+from part_list.part_group  import PartGroupMixin
+from part_list.score_part  import ScorePartMixin
+from score_partwise        import ScorePartWiseMixin
 
 def register_mixins(dom_object):
 
     interfaces = {
         resources.musicxml.attributes: (AttributesMixin, object),
-        resources.musicxml.backup: (BackupMixin, object),
-        resources.musicxml.barline: (BarlineMixin, object),
-        resources.musicxml.credit: (CreditMixin, object),
-        resources.musicxml.direction: (DirectionMixin, object),
-        resources.musicxml.forward: (ForwardMixin, object),
-        resources.musicxml.note: (NoteMixin, object),
+        resources.musicxml.backup    : (BackupMixin, object),
+        resources.musicxml.barline   : (BarlineMixin, object),
+        resources.musicxml.credit    : (CreditMixin, object),
+        resources.musicxml.direction : (DirectionMixin, object),
+        resources.musicxml.forward   : (ForwardMixin, object),
+        resources.musicxml.note      : (NoteMixin, object),
         resources.musicxml.part_group: (PartGroupMixin, object),
-        resources.musicxml.pitch: (PitchMixin, object),
-        resources.musicxml.print_: (PrintMixin, object),
+        resources.musicxml.pitch     : (PitchMixin, object),
+        resources.musicxml.print_    : (PrintMixin, object),
         resources.musicxml.score_part: (ScorePartMixin, object),
-        resources.musicxml.sound: (SoundMixin, object),
+        resources.musicxml.sound     : (SoundMixin, object),
         }
 
     for cls, interface in interfaces.iteritems():
