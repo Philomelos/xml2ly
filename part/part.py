@@ -24,7 +24,7 @@ class PartMixin(object):
 
     def grouped_elements(self):
         result = group_chords(self.music_elements)
-        result = group_grace_notes(chords)
+        result = group_grace_notes(result)
         return result
 
     # todo: offsets, durations etc.

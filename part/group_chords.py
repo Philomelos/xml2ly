@@ -9,10 +9,10 @@ def is_group(lst):
     return len(lst) > 1
 
 def append_as_chord_if_multiple(lst, groups):
-    from music_data.chord import Chord
+    from music_data.chord_container import ChordContainer
 
     if is_group(lst):
-        groups.append(Chord(lst))
+        groups.append(ChordContainer(lst))
     else:
         groups.extend(lst)
     return groups

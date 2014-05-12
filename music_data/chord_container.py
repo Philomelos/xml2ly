@@ -1,4 +1,4 @@
-class Chord(object):
+class ChordContainer(object):
 
     def __init__(self, elements=None):
         self.elements=elements
