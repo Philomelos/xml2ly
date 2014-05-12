@@ -60,8 +60,6 @@ def fraction_to_lily_string(a):
     result = ''.join(string)
     return result
 
-class Base(object):
-    pass
 
 class NoteMixin(object):
 
@@ -144,8 +142,9 @@ class NoteMixin(object):
 
     @property
     def lilypond_format(self, indent=0):
-        if self.pitch and not self.is_rest:
-            return self.indent(indent) + self.template.format(**self.parameters)
-        elif self.is_rest:
-            return 'r4' 
+        # if self.pitch and not self.is_rest:
+        #     return self.indent(indent) + self.template.format(**self.parameters)
+        # elif self.is_rest:
+        #     return 'r4' 
+        return 'note'
 
