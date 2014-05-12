@@ -11,23 +11,23 @@ filename = '/Users/fredrik/Documents/voice_test.xml'
 
 import resources.musicxml
 
-from headers.credit        import CreditMixin
-from headers.header        import HeaderMixin
-from headers.paper         import PaperMixin
-from headers.layout        import LayoutMixin
-from music_data.attributes import AttributesMixin
-from music_data.backup     import BackupMixin
-from music_data.barline    import BarlineMixin
-from music_data.direction  import DirectionMixin
-from music_data.forward    import ForwardMixin
-from music_data.note       import NoteMixin
-from music_data.pitch      import PitchMixin
-from music_data.print_     import PrintMixin
-from music_data.sound      import SoundMixin
-from part.part             import PartMixin
-from part_list.part_group  import PartGroupMixin
-from part_list.score_part  import ScorePartMixin
-from score_partwise        import ScorePartWiseMixin
+from score_partwise.credit         import CreditMixin
+from score_partwise.header         import HeaderMixin
+from score_partwise.paper          import PaperMixin
+from score_partwise.layout         import LayoutMixin
+from music_data.attributes         import AttributesMixin
+from music_data.backup             import BackupMixin
+from music_data.barline            import BarlineMixin
+from music_data.direction          import DirectionMixin
+from music_data.forward            import ForwardMixin
+from music_data.note               import NoteMixin
+from music_data.pitch              import PitchMixin
+from music_data.print_             import PrintMixin
+from music_data.sound              import SoundMixin
+from part.part                     import PartMixin
+from part_list.part_group          import PartGroupMixin
+from part_list.score_part          import ScorePartMixin
+from score_partwise.score_partwise import ScorePartWiseMixin
 
 def register_mixins(dom_object):
 
