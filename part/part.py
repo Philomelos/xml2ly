@@ -1,3 +1,6 @@
+from group_chords import group_chords
+from group_grace_notes import group_grace_notes
+
 class Voice(object):
     pass
 
@@ -18,4 +21,11 @@ class PartMixin(object):
             if isinstance(elt, note):
                 print elt.lily_voice, elt.lily_note_type
         return self.id
+
+    def grouped_elements(self):
+        result = group_chords(self.music_elements)
+        result = group_grace_notes(chords)
+        return result
+
+    # todo: offsets, durations etc.
 

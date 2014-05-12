@@ -67,21 +67,20 @@ class NoteMixin(object):
     def is_rest(self):
         return self.rest is not None
 
-    def maybe_property(self, param, default):
-        try:
-            value = param.value()
-            return value
-        except AttributeError:
-            return default
+    @property
+    def is_grace(self):
+        return self.grace is not None
 
     @property
     def lily_voice(self):
-        # TODO: prefix properties to avoid overriding
-        return self.maybe_property(self.voice, default=1)
+        return self.voice
 
     @property
     def lily_note_type(self):
-        return self.maybe_property(self.type, default=None)
+        try:
+            return self.type.value()
+        except AttributeError:
+            return None
 
     @property
     def dots(self):
@@ -103,30 +102,18 @@ class NoteMixin(object):
 
     @property
     def duration_string(self):
-
         try:
             return self.duration_string_from_type()
         except:
             pass
-
         try:
             return self.duration_string_from_duration_tag_and_divisions()
         except:
             pass
-            
-
-    @property
-    def template(self, indent=0):
-        return '{before}{pitch}{duration}{voice}'
 
     @property
     def before(self):
-        # All methods which collect multiple items and joins them
-        #     must provide a default return value '' ?
-        result = []
-        for x in range(0, 4):
-            result.append(str(x))
-        return '.'.join(result)
+        return ''
 
     def indent(self, indent=0):
         return '\t' * indent
@@ -138,6 +125,7 @@ class NoteMixin(object):
             'pitch'   : self.pitch.lilypond_format,
             'duration': self.duration_string,
             'voice'   : self.lily_voice,
+            'after'  : self.before,
             }
 
     @property
@@ -148,3 +136,6 @@ class NoteMixin(object):
         #     return 'r4' 
         return 'note'
 
+
+# Names: before/after? 'type' -> lily_type? before_note/after_note? body?
+# collect chords and graces in a simple way.
