@@ -6,8 +6,11 @@ class Voice(object):
 
 class PartMixin(object):
 
+    opening = '{\n'
+    closing = '\n } \n'
+
     @property
-    def music_elements(part):
+    def elements(part):
         result = [] 
         for measure in part.measure[:]:
             for elt in measure.content():
@@ -15,15 +18,28 @@ class PartMixin(object):
         return result
 
     @property
-    def lilypond_format(self):
+    def formatted_elements(self):
         from resources.musicxml import note
-        for elt in self.music_elements:
+        result = []
+        for elt in self.grouped_elements():
             if isinstance(elt, note):
-                print elt.lily_voice, elt.lily_note_type
-        return self.id
+                result.append(elt.lilypond_format)
+        return ' '.join(result)
+
+    @property
+    def parameters(self):
+        return (
+            self.opening,
+            self.formatted_elements,
+            self.closing,
+            )
+
+    @property
+    def lilypond_format(self):
+        return ' '.join(self.parameters)
 
     def grouped_elements(self):
-        result = group_chords(self.music_elements)
+        result = group_chords(self.elements)
         result = group_grace_notes(result)
         return result
 

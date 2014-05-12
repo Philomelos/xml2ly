@@ -64,7 +64,19 @@ def register_mixins(dom_object):
 dom = file_to_xml_dom_object(filename)
 register_mixins(dom)
 
-print dom.format_parts() # ScorePartWiseMixin
-print dom.format_header()  # HeaderMixin
-print dom.format_paper_block()  # HeaderMixin
-print dom.format_layout_block()  # HeaderMixin
+with open('test_out.ly', 'w') as outfile:
+    outfile.write(dom.format_parts())
+
+# print dom.format_header()  # HeaderMixin
+# print dom.format_paper_block()  # HeaderMixin
+# print dom.format_layout_block()  # HeaderMixin
+
+# for x in dom.parts[2].chords():
+#     print type(x)
+
+# for x in dom.parts[2].grouped_elements():
+#     print x, type(x)
+#     try:
+#         print x.grace_container.elements, '******'
+#     except:
+#         pass
