@@ -5,7 +5,7 @@ def file_to_xml_dom_object(filename):
     with open(filename, 'r') as infile:
         xml_data = infile.read()
         dom = resources.musicxml.CreateFromDocument(xml_data)
-        return dom 
+        return dom
 
 filename = '/Users/fredrik/Documents/voice_test.xml'
 
@@ -13,6 +13,8 @@ import resources.musicxml
 
 from headers.credit        import CreditMixin
 from headers.header        import HeaderMixin
+from headers.paper         import PaperMixin
+from headers.layout        import LayoutMixin
 from music_data.attributes import AttributesMixin
 from music_data.backup     import BackupMixin
 from music_data.barline    import BarlineMixin
@@ -54,10 +56,15 @@ def register_mixins(dom_object):
     score_cls = dom_object
     score_cls.__class__.__bases__ = (
         HeaderMixin,
+        LayoutMixin,
+        PaperMixin,
         ScorePartWiseMixin,
         object)
 
 dom = file_to_xml_dom_object(filename)
 register_mixins(dom)
 
-print dom.format_parts()
+print dom.format_parts() # ScorePartWiseMixin
+print dom.format_header()  # HeaderMixin
+print dom.format_paper_block()  # HeaderMixin
+print dom.format_layout_block()  # HeaderMixin

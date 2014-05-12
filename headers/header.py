@@ -39,7 +39,6 @@ class HeaderMixin(object):
             self.closing,
             )
 
-    @property
     def format_header(self):
         result = filter(lambda x: x is not None, self.parameters)
         return '\n'.join(result)
