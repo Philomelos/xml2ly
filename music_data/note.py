@@ -64,12 +64,24 @@ def fraction_to_lily_string(a):
 class NoteMixin(object):
 
     @property
+    def time_modification_as_fraction(self):
+        mod = self.time_modification
+        if mod is not None:
+            return Fraction(mod.actual_notes, mod.normal_notes)
+        else:
+            return Fraction(1, 1)
+        
+    @property
+    def is_grace(self):
+        return self.grace is not None
+
+    @property
     def is_rest(self):
         return self.rest is not None
 
     @property
-    def is_grace(self):
-        return self.grace is not None
+    def is_pitched(self):
+        return self.pitch is not None
 
     @property
     def lily_voice(self):
@@ -91,19 +103,21 @@ class NoteMixin(object):
         if self.type is not None:
             return self.type.value()
 
-    def duration_string_from_type(self):
+    def duration_from_type(self):
         return create_fraction_from_xml_data(
             self.duration_type,
             self.dots,
             )
 
     def duration_string_from_duration_tag_and_divisions(self):
-        return 'from duration_tag'
+        dur = Fraction(int(self.duration),
+                       int(self.attributes.divisions)) * Fraction(1, 4)
+        return dur
 
     @property
-    def duration_string(self):
+    def duration_as_fraction(self):
         try:
-            return self.duration_string_from_type()
+            return self.duration_from_type()
         except:
             pass
         try:
@@ -128,13 +142,28 @@ class NoteMixin(object):
             'after'  : self.before,
             }
 
+    def format_as_rest(self):
+        pass
+
+    @property
+    def duration_string(self):
+        return fraction_to_lily_string(self.duration_as_fraction)
+
     @property
     def lilypond_format(self, indent=0):
-        # if self.pitch and not self.is_rest:
-        #     return self.indent(indent) + self.template.format(**self.parameters)
-        # elif self.is_rest:
-        #     return 'r4' 
-        return 'note'
+        if self.is_pitched:
+            return '{}{}'.format(
+                self.pitch.lilypond_format,
+                self.duration_string,
+                )
+        elif self.is_rest:
+            return 'r{}'.format(self.duration_string)
+        elif self.is_unpitched:
+            return ''
+        else:
+            return ''
+            
+
 
 
 # Names: before/after? 'type' -> lily_type? before_note/after_note? body?
