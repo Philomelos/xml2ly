@@ -1,5 +1,13 @@
 from group_chords import group_chords
 from group_grace_notes import group_grace_notes
+from set_note_attributes import set_note_attributes
+from set_measure_list_offsets import set_measure_list_offsets
+from resources.musicxml import (
+    note,
+    backup,
+    forward,
+    )
+from resources.musicxml import direction
 
 class Voice(object):
     pass
@@ -39,9 +47,13 @@ class PartMixin(object):
         return ' '.join(self.parameters)
 
     def grouped_elements(self):
+        # adjust all elements
+        set_note_attributes(self.measure[:])
         result = group_chords(self.elements)
         result = group_grace_notes(result)
-        return result
+        set_measure_list_offsets(self.measure[:])
 
-    # todo: offsets, durations etc.
+        # associate directions + voices
+        # print notes
+        return result
 

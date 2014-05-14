@@ -1,7 +1,6 @@
 def is_note_or_chord(elt):
     from resources.musicxml import note
     from music_data.chord import Chord
-
     return isinstance(elt, note) or isinstance(elt, Chord)
 
 def group_grace_notes(elts):
