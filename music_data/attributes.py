@@ -4,10 +4,6 @@ class AttributesMixin(object):
     def lilypond_format(self):
         return None
 
-    @property
-    def dii(self):
-        return 987
-
 
 class ElementAttributes(object):
 

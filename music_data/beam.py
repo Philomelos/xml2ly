@@ -1,5 +1,5 @@
-class SoundMixin(object):
+class BeamMixin(object):
 
     @property
     def lilypond_format(self):
-        return None
+        return ''

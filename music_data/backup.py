@@ -4,7 +4,7 @@ class BackupMixin(object):
 
     @property
     def lilypond_format(self):
-        return 'backup'
+        return None
 
     @property
     def time_modification_as_fraction(self):

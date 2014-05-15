@@ -4,7 +4,7 @@ class ForwardMixin(object):
 
     @property
     def lilypond_format(self):
-        return 'forward'
+        return None
 
     @property
     def time_modification_as_fraction(self):

@@ -4,7 +4,7 @@ class DirectionMixin(object):
 
     @property
     def lilypond_format(self):
-        return 'direction'
+        return None 
 
     @property
     def offset_as_fraction(self):

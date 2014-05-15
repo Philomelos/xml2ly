@@ -70,6 +70,15 @@ class NoteMixin(object):
             return Fraction(mod.actual_notes, mod.normal_notes)
         else:
             return Fraction(1, 1)
+
+    @property
+    def tuplets(self):
+        result = []
+        for notation in self.notations:
+            result.append(notation.lilypond_format)
+            # result.append(tuplet.lilypond_format)
+            # print 'sldkjflskjdlksdjf'
+        return ' '.join(result)
         
     @property
     def is_grace(self):
@@ -142,6 +151,12 @@ class NoteMixin(object):
             'after'  : self.before,
             }
 
+    @property
+    def before_note(self):
+        return (
+            self.tuplets,
+            )
+
     def format_as_rest(self):
         pass
 
@@ -151,17 +166,22 @@ class NoteMixin(object):
 
     @property
     def lilypond_format(self, indent=0):
+        result = []
+
+        for elt in self.before_note:
+            result.append(elt)
+            
         if self.is_pitched:
-            return '{}{}'.format(
+            result.append('{}{}'.format(
                 self.pitch.lilypond_format,
-                self.duration_string,
-                )
+                self.duration_string))
+                
         elif self.is_rest:
-            return 'r{}'.format(self.duration_string)
-        elif self.is_unpitched:
-            return ''
-        else:
-            return ''
+            result.append('r{}'.format(self.duration_string))
+
+        return ' '.join(result)
+
+                        
             
 
 
