@@ -27,7 +27,7 @@ def filter_by_voice_name(measure_list, voice_name):
             if is_note_or_chord(elt) and elt.voice == voice_name:
                 new_measure.elements.append(elt)
         result.append(new_measure)
-    voice = Voice(name=voice_name, elements=result)
+    voice = Voice(name=voice_name, measures=result)
     return voice
             
 from voice import Voice
@@ -104,7 +104,6 @@ class PartMixin(object):
         return result
 
     def extract_voices(self):
-
 
         measures = self.get_measures()
         set_note_attributes(measures)

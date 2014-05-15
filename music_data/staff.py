@@ -30,7 +30,7 @@ class PianoStaff(Staff):
         import operator
         import collections
         result = []
-        for elt in voice.elements:
+        for elt in voice.music_events:
             if hasattr(elt, 'staff'):
                 result.append(elt.staff)
         count = collections.Counter(result)
