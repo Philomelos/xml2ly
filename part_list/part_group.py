@@ -2,4 +2,8 @@ class PartGroupMixin(object):
 
     @property
     def lilypond_format(self):
-        return 'part-group'
+        return ''
+
+    @property
+    def score_block_format(self):
+        return ''
