@@ -54,6 +54,7 @@ class DirectionsRegister(object):
     def ordered_keys(self):
         return (
             'dynamics',
+            'wedge', 
             )
 
     @property

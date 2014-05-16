@@ -32,7 +32,8 @@ from music_data.tuplet import TupletMixin
 from music_data.notations import NotationsMixin
 from music_data.slur import SlurMixin
 from music_data.glissando import GlissandoMixin
-from music_data.dynamics import DynamicsMixin
+from music_data.directions.dynamics import DynamicsMixin
+from music_data.directions.wedge import WedgeMixin
 from music_data.beam import BeamMixin
 from score_partwise.score_partwise import ScorePartWiseMixin
 
@@ -57,6 +58,7 @@ def register_mixins(dom_object):
         resources.musicxml.score_part: (ScorePartMixin, object),
         resources.musicxml.dynamics: (DynamicsMixin, object),
         resources.musicxml.sound     : (SoundMixin, object),
+        resources.musicxml.wedge     : (WedgeMixin, object),
         }
 
     for cls, interface in interfaces.iteritems():
