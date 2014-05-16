@@ -1,6 +1,7 @@
 from group_chords import group_chords
 from group_grace_notes import group_grace_notes
 from set_note_attributes import set_note_attributes
+from associate_directions_with_note_events import associate_directions_with_note_events
 from set_measure_list_offsets import set_measure_list_offsets
 from resources.musicxml import (
     note,
@@ -24,7 +25,10 @@ def filter_by_voice_name(measure_list, voice_name):
         new_measure = measure.copy()
         new_measure.elements = []
         for elt in elts:
-            if is_note_or_chord(elt) and elt.voice == voice_name:
+            if is_note_or_chord(elt):
+                if elt.voice == voice_name:
+                    new_measure.elements.append(elt)
+            else:
                 new_measure.elements.append(elt)
         result.append(new_measure)
     voice = Voice(name=voice_name, measures=result)
@@ -113,9 +117,16 @@ class PartMixin(object):
             measure.elements = group_chords(measure.elements)
             measure.elements = group_grace_notes(measure.elements)
 
-        # # result = associate_directions_with_note_events(result)
+        measures = associate_directions_with_note_events(measures)
         voices = self.group_voices(measures)
+
         self.voices = voices
+
+        for measure in self.voices[0].measures:
+            for elt in measure.elements:
+                # only notes and chords -- how to deal with the other objects?
+                print elt
+
         return voices
 
     def grouped_elements(self):
@@ -123,7 +134,5 @@ class PartMixin(object):
         return ''
 
 
-def associate_directions_with_note_events(elements):
-    pass
 
     

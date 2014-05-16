@@ -79,7 +79,7 @@ class NoteMixin(object):
             # result.append(tuplet.lilypond_format)
             # print 'sldkjflskjdlksdjf'
         return ' '.join(result)
-        
+
     @property
     def is_grace(self):
         return self.grace is not None
@@ -157,8 +157,13 @@ class NoteMixin(object):
             self.tuplets,
             )
 
-    def format_as_rest(self):
-        pass
+    @property
+    def format_contributions(self):
+        return (
+            self.tuplets,
+            self.graces,
+            self.directions,
+            )
 
     @property
     def duration_string(self):
@@ -170,6 +175,9 @@ class NoteMixin(object):
 
         for elt in self.before_note:
             result.append(elt)
+
+        if hasattr(self, 'grace_container') and self.grace_container is not None:
+            result.append(self.grace_container.lilypond_format)
             
         if self.is_pitched:
             result.append('{}{}'.format(
