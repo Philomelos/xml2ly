@@ -92,6 +92,30 @@
 #         except:
 #             pass
 
+class TupletList(object):
+
+    def __init__(self, elements=None):
+        if elements is not None:
+            self.elements = elements
+        else:
+            self.elements = []
+
+    @property
+    def before_note(self):
+        result = []
+        for elt in self.elements:
+            if elt.before_note is not None:
+                result.append(elt.before_note)
+        return ' '.join(result)
+
+    @property
+    def after_note(self):
+        result = []
+        for elt in self.elements:
+            if elt.after_note is not None:
+                result.append(elt.after_note)
+        return ' '.join(result)
+
 class TupletMixin(object):
 
     @property
@@ -102,6 +126,16 @@ class TupletMixin(object):
     def is_closing(self):
         return self.type == 'stop'
 
+    @property
+    def before_note(self):
+        if self.is_opening:
+            return '\\tuplet 3/2 {'
+
+    @property
+    def after_note(self):
+        if self.is_closing:
+            return '}'
+    
     @property
     def lilypond_format(self):
         # if self.is_opening:

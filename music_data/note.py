@@ -73,12 +73,12 @@ class NoteMixin(object):
 
     @property
     def tuplets(self):
-        result = []
-        for notation in self.notations:
-            result.append(notation.lilypond_format)
-            # result.append(tuplet.lilypond_format)
-            # print 'sldkjflskjdlksdjf'
-        return ' '.join(result)
+        from music_data.tuplet import TupletList
+        tuplet_list = TupletList()
+        for notation in self.notations[:]:
+            for tuplet in notation.tuplet[:]:
+                tuplet_list.elements.append(tuplet)
+        return tuplet_list
 
     @property
     def is_grace(self):
@@ -158,10 +158,14 @@ class NoteMixin(object):
             )
 
     @property
+    def graces(self):
+        if hasattr(self, 'grace_container') and self.grace_container is not None:
+            return self.grace_container
+
+    @property
     def format_contributions(self):
         return (
             self.tuplets,
-            self.graces,
             self.directions,
             )
 
@@ -173,11 +177,12 @@ class NoteMixin(object):
     def lilypond_format(self, indent=0):
         result = []
 
-        for elt in self.before_note:
-            result.append(elt)
+        for elt in self.format_contributions:
+            if elt is not None and elt.before_note is not None:
+                result.append(elt.before_note)
 
-        if hasattr(self, 'grace_container') and self.grace_container is not None:
-            result.append(self.grace_container.lilypond_format)
+        if self.graces:
+            result.append(self.graces.lilypond_format)
             
         if self.is_pitched:
             result.append('{}{}'.format(
@@ -187,7 +192,11 @@ class NoteMixin(object):
         elif self.is_rest:
             result.append('r{}'.format(self.duration_string))
 
-        return ' '.join(result)
+        for elt in self.format_contributions:
+            if elt is not None and elt.after_note is not None:
+                result.append(elt.after_note)
+
+        return ''.join(result)
 
                         
             

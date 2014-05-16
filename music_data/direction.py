@@ -51,3 +51,30 @@ class DirectionsRegister(object):
         for elt in elts:
             self.append(elt)
 
+    def ordered_keys(self):
+        return (
+            'dynamics',
+            )
+
+    @property
+    def before_note(self):
+        result = []
+        for key in self.ordered_keys():
+            elts = self.elements.get(key, None)
+            if elts:
+                for elt in elts:
+                    if elt.before_note is not None:
+                        result.append(elt.before_note)
+        return ' '.join(result)
+
+    @property
+    def after_note(self):
+        result = []
+        for key in self.ordered_keys():
+            elts = self.elements.get(key, None)
+            if elts:
+                for elt in elts:
+                    if elt.after_note is not None:
+                        result.append(elt.after_note)
+        return ' '.join(result)
+            
