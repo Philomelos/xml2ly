@@ -1,0 +1,14 @@
+Installation (tested with Python 2.7.5)
+
+1. Clone project and cd to project directory:
+fred:Desktop fredrik$ git clone git@lab.maketank.net:philomelos/xml2ly.git
+fred:Desktop fredrik$ cd xml2ly/
+
+2. Start a virtualenv...
+fred:xml2ly fredrik$ virtualenv env
+
+3. ...and activate it.
+fred:xml2ly fredrik$ source env/bin/activate
+
+4. Once we're inside the virtualenv, we can install the requirements:
+(env)fred:xml2ly fredrik$ pip install -r requirements.txt 
