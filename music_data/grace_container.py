@@ -1,3 +1,6 @@
+from resources.musicxml import note
+from music_data.chord_container import ChordContainer
+
 class GraceContainer(object):
 
     def __init__(self, elements=None, is_aftergrace=False):
@@ -5,8 +8,17 @@ class GraceContainer(object):
         self.is_aftergrace=is_aftergrace
 
     @property
+    def is_slashed(self):
+        return self.elements[0].is_slashed
+
+    @property
     def opening(self):
-        return "\\grace {"
+        if self.is_aftergrace:
+            return "\\afterGrace {"
+        elif self.is_slashed:
+            return "\\acciaccatura {"
+        else:
+            return "\\grace {"
 
     @property
     def closing(self):

@@ -64,29 +64,16 @@ def fraction_to_lily_string(a):
 class NoteMixin(object):
 
     @property
-    def time_modification_as_fraction(self):
-        mod = self.time_modification
-        if mod is not None:
-            return Fraction(mod.actual_notes, mod.normal_notes)
-        else:
-            return Fraction(1, 1)
-
-    @property
-    def tuplets(self):
-        from music_data.tuplet import TupletList
-        tuplet_list = TupletList()
-        for notation in self.notations[:]:
-            for tuplet in notation.tuplet[:]:
-                tuplet_list.elements.append(tuplet)
-        return tuplet_list
-
-    @property
     def is_grace(self):
         return self.grace is not None
 
     @property
     def is_rest(self):
         return self.rest is not None
+
+    @property
+    def is_slashed(self):
+        return self.grace.slash == 'yes'
 
     @property
     def is_pitched(self):
@@ -112,6 +99,23 @@ class NoteMixin(object):
         if self.type is not None:
             return self.type.value()
 
+    @property
+    def time_modification_as_fraction(self):
+        mod = self.time_modification
+        if mod is not None:
+            return Fraction(mod.actual_notes, mod.normal_notes)
+        else:
+            return Fraction(1, 1)
+
+    @property
+    def tuplets(self):
+        from music_data.tuplet import TupletList
+        tuplet_list = TupletList()
+        for notation in self.notations[:]:
+            for tuplet in notation.tuplet[:]:
+                tuplet_list.elements.append(tuplet)
+        return tuplet_list
+
     def duration_from_type(self):
         return create_fraction_from_xml_data(
             self.duration_type,
@@ -135,32 +139,13 @@ class NoteMixin(object):
             pass
 
     @property
-    def before(self):
-        return ''
-
-    def indent(self, indent=0):
-        return '\t' * indent
-
-    @property
-    def parameters(self):
-        return {
-            'before'  : self.before,
-            'pitch'   : self.pitch.lilypond_format,
-            'duration': self.duration_string,
-            'voice'   : self.lily_voice,
-            'after'  : self.before,
-            }
-
-    @property
-    def before_note(self):
-        return (
-            self.tuplets,
-            )
-
-    @property
     def graces(self):
         if hasattr(self, 'grace_container') and self.grace_container is not None:
             return self.grace_container
+
+    @property
+    def duration_string(self):
+        return fraction_to_lily_string(self.duration_as_fraction)
 
     @property
     def format_contributions(self):
@@ -170,13 +155,10 @@ class NoteMixin(object):
             )
 
     @property
-    def duration_string(self):
-        return fraction_to_lily_string(self.duration_as_fraction)
-
-    @property
     def lilypond_format(self, indent=0):
         result = []
 
+        # TODO: clean up
         for elt in self.format_contributions:
             if elt is not None and elt.before_note is not None:
                 result.append(elt.before_note)
@@ -199,9 +181,5 @@ class NoteMixin(object):
         return ''.join(result)
 
                         
-            
-
-
-
 # Names: before/after? 'type' -> lily_type? before_note/after_note? body?
 # collect chords and graces in a simple way.

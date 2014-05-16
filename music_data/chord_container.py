@@ -11,6 +11,10 @@ class ChordContainer(object):
         return any([note.is_grace for note in self.elements])
 
     @property
+    def is_slashed(self):
+        return self.elements[0].is_slashed
+
+    @property
     def pitches(self):
         result = []
         for note in self.elements:
