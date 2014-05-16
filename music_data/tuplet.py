@@ -118,6 +118,9 @@ class TupletList(object):
 
 class TupletMixin(object):
 
+    # TODO: show/hide bracket, line styles, non-conventional tuplet values,
+    # TODO: show/hide number
+
     @property
     def is_opening(self):
         return self.type == 'start'
@@ -127,77 +130,33 @@ class TupletMixin(object):
         return self.type == 'stop'
 
     @property
+    def numerator(self):
+        return self.tuplet_actual.tuplet_number.value()
+
+    @property
+    def denominator(self):
+        return self.tuplet_normal.tuplet_number.value()
+
+    @property
+    def numerator_note_type(self):
+        return self.tuplet_actual.tuplet_type
+
+    @property
+    def denominator_note_type(self):
+        return self.tuplet_normal.tuplet_type
+
+    @property
+    def body(self):
+        return "\\tuplet {num}/{denom} {{"
+
+    @property
     def before_note(self):
         if self.is_opening:
-            return '\\tuplet 3/2 {'
+            return self.body.format(num=self.numerator, denom=self.denominator)
 
     @property
     def after_note(self):
         if self.is_closing:
             return '}'
     
-    @property
-    def lilypond_format(self):
-        # if self.is_opening:
-        #     return '\\tuplet 3/2 {'
-        # elif self.is_closing:
-        #     return '}'
-        return ''
-
-    # xml_accessor = 'tuplet'
-    # init_args = (
-    #     'bracket',
-    #     'show_number',
-    #     'show_type',
-    #     'type_',
-    #     'line_shape',
-
-    #     'tuplet_actual',
-    #     'tuplet_normal',
-    #     'tuplet_time_modification',
-    #     )
-
-    # bracket = TypedProperty('_bracket', TupletBracketAttribute)
-    # show_number = TypedProperty('_show_number', TupletShowNumberAttribute)
-    # show_type = TypedProperty('_show_type', TupletShowNumberAttribute)
-    # type_ = TypedProperty('_type', TupletTypeAttribute)
-    # line_shape = TypedProperty('_line_shape', TupletLineShapeAttribute)
-
-    # tuplet_actual = TypedProperty('_tuplet_actual', TupletActualElement)
-    # tuplet_normal = TypedProperty('_tuplet_normal', TupletNormalElement)
-
-    # tuplet_time_modification = TypedProperty(
-    #     '_tuplet_time_modification',
-    #     TupletTimeModificationElement)
-
-    # @property
-    # def numerator(self):
-    #     if self.tuplet_actual.tuplet_number:
-    #         return self.tuplet_actual.tuplet_number
-    #     else:
-    #         return self.tuplet_time_modification.actual_notes
-
-    # @property
-    # def denominator(self):
-    #     if self.tuplet_normal.tuplet_number:
-    #         return self.tuplet_normal.tuplet_number
-    #     else:
-    #         return self.tuplet_time_modification.normal_notes
-
-    # def opening_ly_expression(self):
-    #     from fractions import Fraction
-    #     cmd = '\\tuplet {ratio} {{'
-    #     return cmd.format(ratio=Fraction(self.numerator, self.denominator))
-
-    # def closing_ly_expression(self):
-    #     return '}'
-
-    # def print_before(self, printer):
-    #     if self.type_ == 'start':
-    #         printer.dump(self.opening_ly_expression())
-
-    # def print_after(self, printer):
-    #     if self.type_ == 'stop':
-    #         printer.dump(self.closing_ly_expression())
-
 
