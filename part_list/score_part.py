@@ -57,7 +57,8 @@ class ScorePartMixin(object):
                 voices = staff_dict[staff_number]
                 for voice in voices:
                     result.append(voice.lilypond_score_representation)
-                    result.append('>>')
+                result.append('>>')
+            result.append('>>')
             return ' '.join(result)
 
         else:

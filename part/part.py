@@ -122,10 +122,11 @@ class PartMixin(object):
 
         self.voices = voices
 
-        for measure in self.voices[0].measures:
-            for elt in measure.elements:
-                # only notes and chords -- how to deal with the other objects?
-                print elt
+        # for measure in self.voices[0].measures:
+        #     for elt in measure.elements:
+        #         # only notes and chords -- how to deal with the other objects?
+        #         print elt
+        # TODO: filter out everything except notes and chords?
 
         return voices
 

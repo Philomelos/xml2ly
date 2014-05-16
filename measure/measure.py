@@ -9,12 +9,14 @@ class Measure(object):
     def group_chords(self):
         self.elements = group_chords(self.elements)
 
+    def filter_non_printing_objects(self, objects):
+        return filter(lambda x: x is not None, objects)
+
     @property
     def lilypond_format(self):
         result = [x.lilypond_format for x in self.elements]
-        result = filter(lambda x: x is not None, result)
+        result = self.filter_non_printing_objects(result)
         return ' '.join(result)
-     
 
     def copy(self):
         copy = Measure()

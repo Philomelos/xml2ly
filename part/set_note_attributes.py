@@ -9,4 +9,6 @@ def set_note_attributes(measure_list):
         measure_attributes = measure.attributes[:]
         curr_attr.update(measure_attributes)
         for elt in measure.elements:
+            # initialize attributes and directions
             elt.attributes = copy(curr_attr)
+            elt.directions = None

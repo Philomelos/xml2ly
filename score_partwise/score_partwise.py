@@ -1,7 +1,7 @@
 class ScorePartWiseMixin(object):
 
     score_block_open  = '\\score { \n <<'
-    score_block_close = '\n >> \n } \n'
+    score_block_close = '\n >> } \n'
 
     @property
     def parts(self):

@@ -48,11 +48,11 @@ def associate_directions_with_note_events(measure_list):
                     elt.directions.extend(insert)
                 new_elements.append(elt)
 
-                print elt.directions.elements
-
             elif is_direction(elt):
                 pre_note_directions.append(elt)
 
+            else:
+                new_elements.append(elt)
         # At the end of the Measure, gather all pending Directions
         # and attach them to the last active NoteElement
         if pre_note_directions:
