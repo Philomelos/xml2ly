@@ -9,14 +9,14 @@ class ScorePartMixin(object):
     @property
     def score_part_name(self):
         if self.part_name_display is not None:
-            return self.part_name_display.value()
+            return ''.join(x.value() for x in self.part_name_display.display_text[:])
         else:
             return self.part_name.value()
 
     @property
     def score_part_abbreviation(self):
         if self.part_abbreviation_display is not None:
-            return self.part_abbreviation_display.value()
+            return ''.join(x.value() for x in self.part_abbreviation_display.display_text[:])
         else:
             return self.part_abbreviation.value()
 
