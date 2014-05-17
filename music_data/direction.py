@@ -55,6 +55,7 @@ class DirectionsRegister(object):
         return (
             'dynamics',
             'wedge', 
+            'formatted_text', # <words>
             )
 
     @property

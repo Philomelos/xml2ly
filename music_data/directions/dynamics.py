@@ -35,6 +35,9 @@ class DynamicsMixin(object):
 
     @property
     def after_note(self):
+        # TODO: get mark directly
         for mark in self.dynamic_marks:
             if self.has_dynamic_mark(mark):
                 return '\\{}'.format(mark)
+
+
