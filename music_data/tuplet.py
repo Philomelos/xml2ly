@@ -131,11 +131,13 @@ class TupletMixin(object):
 
     @property
     def numerator(self):
-        return self.tuplet_actual.tuplet_number.value()
+        if self.tuplet_actual is not None:
+            return self.tuplet_actual.tuplet_number.value()
 
     @property
     def denominator(self):
-        return self.tuplet_normal.tuplet_number.value()
+        if self.tuplet_normal is not None:
+            return self.tuplet_normal.tuplet_number.value()
 
     @property
     def numerator_note_type(self):
