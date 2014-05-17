@@ -1,3 +1,5 @@
+from resources.musicxml import note
+from music_data.chord_container import ChordContainer
 from part.group_chords import group_chords
 
 class Measure(object):
@@ -10,13 +12,13 @@ class Measure(object):
         self.elements = group_chords(self.elements)
 
     def filter_non_printing_objects(self, objects):
-        return filter(lambda x: x is not None, objects)
+        non_printing = lambda x: x is not None and isinstance(x, (note, ChordContainer))
+        return filter(lambda x: non_printing(x), objects)
 
     @property
     def lilypond_format(self):
-        result = [x.lilypond_format for x in self.elements]
-        result = self.filter_non_printing_objects(result)
-        return ' '.join(result)
+        result = self.filter_non_printing_objects(self.elements)
+        return ' '.join([x.lilypond_format for x in result])
 
     def copy(self):
         copy = Measure()
