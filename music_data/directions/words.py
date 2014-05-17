@@ -24,7 +24,6 @@ class WordsMixin(object):
     @property
     def after_note(self):
         result = '{direction}\\markup {{ \left-align "{text}" }}'
-        return result.format(direction=self.direction, text=self.value())
+        return result.format(direction=self.direction, text=self.value().encode('utf-8'))
                              
-
         

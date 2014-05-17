@@ -1,15 +1,24 @@
+#!/Users/fredrik/repos/xml2ly/env/bin/python2.7
+import sys
+
 import pyxb
 import pyxb.utils.domutils as domutils
 
+
+pyxb.RequireValidWhenParsing(False)
+pyxb.RequireValidWhenGenerating(False)
+
+
 def file_to_xml_dom_object(filename):
+
     with open(filename, 'r') as infile:
+        pyxb.RequireValidWhenParsing(False)
         xml_data = infile.read()
         dom = resources.musicxml.CreateFromDocument(xml_data)
         return dom
 
-filename = '/Users/fredrik/Documents/voice_test.xml'
+# filename = '/Users/fredrik/Documents/voice_test.xml'
 # filename = '/Users/fredrik/Dropbox/Philomelos/musicxml_com-reference-samples/ActorPreludeSample.xml'
-
 import resources.musicxml
 
 from score_partwise.credit         import CreditMixin
@@ -34,8 +43,10 @@ from music_data.slur import SlurMixin
 from music_data.glissando import GlissandoMixin
 from music_data.directions.dynamics import DynamicsMixin
 from music_data.directions.wedge import WedgeMixin
+from music_data.directions.words import WordsMixin 
 from music_data.beam import BeamMixin
 from score_partwise.score_partwise import ScorePartWiseMixin
+
 
 def register_mixins(dom_object):
 
@@ -58,6 +69,7 @@ def register_mixins(dom_object):
         resources.musicxml.score_part: (ScorePartMixin, object),
         resources.musicxml.dynamics: (DynamicsMixin, object),
         resources.musicxml.sound     : (SoundMixin, object),
+        resources.musicxml.formatted_text     : (WordsMixin, object),
         resources.musicxml.wedge     : (WedgeMixin, object),
         }
 
@@ -80,18 +92,24 @@ def register_mixins(dom_object):
         ScorePartWiseMixin,
         object)
 
+
+import os
+filename = sys.argv[1]
+output_file_name = os.path.splitext(os.path.basename(filename))[0] + '.ly'
+
 dom = file_to_xml_dom_object(filename)
 register_mixins(dom)
 
 print dom.format_parts()
 print dom.format_score_block()
-
 # for part in dom.part[:]:
 #     print part.lilypond_score_representation
 
-with open('test_out.ly', 'w') as outfile:
-    outfile.write(dom.format_parts())
-    outfile.write(dom.format_score_block())
+if __name__ == '__main__':
+
+    with open(output_file_name, 'w') as outfile:
+        outfile.write(dom.format_parts())
+        outfile.write(dom.format_score_block())
 
 # print dom.format_header()  # HeaderMixin
 # print dom.format_paper_block()  # HeaderMixin
