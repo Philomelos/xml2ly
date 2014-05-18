@@ -180,16 +180,29 @@ class NoteMixin(object):
         return result
 
     @property
-    def beams(self):
+    def beam_element(self):
         # TODO: use all beams?
         beam = self.beam[:]
         if beam:
             return self.beam[:][0]
 
     @property
+    def tie_element(self):
+        for notation in self.notations:
+            try:
+                return notation.tied[0]
+            except IndexError as e:
+                pass
+        try:
+            return self.tie[0]
+        except IndexError as e:
+            pass
+
+    @property
     def format_contributions(self):
         return (
-            self.beams,
+            self.tie_element,
+            self.beam_element,
             self.tuplets,
             self.directions,
             )

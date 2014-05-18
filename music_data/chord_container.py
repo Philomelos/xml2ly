@@ -61,7 +61,7 @@ class ChordContainer(object):
         return ''.join(result)
 
     @property
-    def voice(self):
+    def lily_voice(self):
         return self.elements[0].lily_voice or 1
 
     @property
