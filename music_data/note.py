@@ -107,12 +107,25 @@ class NoteMixin(object):
         else:
             return Fraction(1, 1)
 
+    def get_alternative_tuplet_numerator(self):
+        return self.time_modification.actual_notes
+
+    def get_alternative_tuplet_denominator(self):
+        return self.time_modification.normal_notes
+
+    def set_alternative_tuplet_values(self, tuplet):
+        if tuplet.numerator is None:
+            tuplet.alternative_numerator = self.get_alternative_tuplet_numerator()
+        if tuplet.denominator is None:
+            tuplet.alternative_denominator = self.get_alternative_tuplet_denominator()
+
     @property
     def tuplets(self):
         from music_data.tuplet import TupletList
         tuplet_list = TupletList()
         for notation in self.notations[:]:
             for tuplet in notation.tuplet[:]:
+                self.set_alternative_tuplet_values(tuplet)
                 tuplet_list.elements.append(tuplet)
         return tuplet_list
 

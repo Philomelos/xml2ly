@@ -154,7 +154,9 @@ class TupletMixin(object):
     @property
     def before_note(self):
         if self.is_opening:
-            return self.body.format(num=self.numerator, denom=self.denominator)
+            numerator = self.numerator or self.alternative_numerator
+            denominator = self.denominator or self.alternative_denominator
+            return self.body.format(num=numerator, denom=denominator)
 
     @property
     def after_note(self):
