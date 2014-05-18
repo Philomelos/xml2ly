@@ -39,5 +39,3 @@ def format_text(s,indent=0):
             result.append(x)
 
     return ' '.join(result)
-
-print format_text(text)

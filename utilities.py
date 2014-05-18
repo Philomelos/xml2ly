@@ -9,3 +9,4 @@ def is_note_or_chord(elt):
 
 def is_direction(elt):
     return isinstance(elt, direction)
+

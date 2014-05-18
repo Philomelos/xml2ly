@@ -2,6 +2,7 @@ from resources.musicxml import note
 from music_data.chord_container import ChordContainer
 from music_data.skip import Skip
 from part.group_chords import group_chords
+from time_signature import TimeSignature
 
 class Measure(object):
 
@@ -11,15 +12,6 @@ class Measure(object):
 
     def group_chords(self):
         self.elements = group_chords(self.elements)
-
-    def filter_non_printing_objects(self, objects):
-        printing = lambda x: x is not None and isinstance(x, (note, ChordContainer, Skip))
-        return filter(lambda x: printing(x), objects)
-
-    @property
-    def lilypond_format(self):
-        result = self.filter_non_printing_objects(self.elements)
-        return ' '.join([x.lilypond_format for x in result])
 
     @property
     def beats(self):
@@ -39,7 +31,7 @@ class Measure(object):
     def time_signature(self):
         beats, beat_type = self.beats, self.beat_type
         if beats and beat_type:
-            return (beats, beat_type)
+            return TimeSignature(beats, beat_type)
 
     def copy(self):
         copy = Measure()
@@ -52,3 +44,16 @@ class Measure(object):
         from resources.musicxml import note
         from music_data.chord_container import ChordContainer
         return any([isinstance(x, (note, ChordContainer)) for x in self.elements])
+
+    @property
+    def printing_elements(self):
+        printing = lambda x: isinstance(x, (note, ChordContainer, Skip))
+        return filter(lambda x: printing(x), self.elements)
+
+    @property
+    def lilypond_format(self):
+        result = []
+        result.append(self.time_signature)
+        result.extend(self.printing_elements)
+        result = filter(lambda x: x is not None, result)
+        return ' '.join([x.lilypond_format for x in result])
