@@ -80,6 +80,14 @@ class NoteMixin(object):
         return self.pitch is not None
 
     @property
+    def is_unpitched(self):
+        return self.unpitched is not None
+
+    @property
+    def is_non_printing_object(self):
+        return self.print_object == 'no'
+
+    @property
     def lily_voice(self):
         return self.voice
 
@@ -190,13 +198,27 @@ class NoteMixin(object):
         if self.graces:
             result.append(self.graces.lilypond_format)
 
-        if self.is_pitched:
-            result.append('{}{}'.format(
-                self.pitch.lilypond_format,
-                self.duration_string))
-                
-        elif self.is_rest:
-            result.append('r{}'.format(self.duration_string))
+        if self.is_non_printing_object:
+            from music_data.skip import Skip
+            skip = Skip(self.duration_as_fraction)
+            result.append(skip.lilypond_format)
+        else:
+            if self.is_pitched:
+                result.append('{}{}'.format(
+                    self.pitch.lilypond_format,
+                    self.duration_string))
+
+            elif self.is_rest:
+                result.append('r{}'.format(self.duration_string))
+
+            elif self.is_unpitched:
+                from resources.musicxml import pitch
+                pitch = pitch()
+                pitch.step = self.unpitched.display_step
+                pitch.octave = self.unpitched.display_octave
+                result.append('{}{}'.format(
+                    pitch.lilypond_format,
+                    self.duration_string))
 
         for elt in self.format_contributions:
             if elt is not None and elt.after_note is not None:
