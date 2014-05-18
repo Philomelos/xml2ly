@@ -169,13 +169,6 @@ class NoteMixin(object):
         return fraction_to_lily_string(self.duration_as_fraction)
 
     @property
-    def format_contributions(self):
-        return (
-            self.tuplets,
-            self.directions,
-            )
-
-    @property
     def lyrics(self):
         return self.lyric[:]
 
@@ -185,6 +178,21 @@ class NoteMixin(object):
         for lyric in self.lyrics:
             result.append(lyric.number)
         return result
+
+    @property
+    def beams(self):
+        # TODO: use all beams?
+        beam = self.beam[:]
+        if beam:
+            return self.beam[:][0]
+
+    @property
+    def format_contributions(self):
+        return (
+            self.beams,
+            self.tuplets,
+            self.directions,
+            )
 
     @property
     def lilypond_format(self, indent=0):
