@@ -15,6 +15,14 @@ class ChordContainer(object):
         return self.elements[0].is_slashed
 
     @property
+    def duration_as_fraction(self):
+        return self.elements[0].duration_as_fraction
+
+    @property
+    def time_modification_as_fraction(self):
+        return self.elements[0].time_modification_as_fraction
+
+    @property
     def pitches(self):
         result = []
         for note in self.elements:
@@ -59,3 +67,7 @@ class ChordContainer(object):
     @property
     def measure_offset(self):
         return self.elements[0].measure_offset
+
+    @measure_offset.setter
+    def measure_offset(self, value):
+        self.elements[0].measure_offset = value

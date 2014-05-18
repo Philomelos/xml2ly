@@ -1,13 +1,6 @@
+from utilities import is_note_or_chord
+from utilities import is_direction
 from measure.measure import Measure
-
-def is_note_or_chord(elt):
-    from resources.musicxml import note
-    from music_data.chord_container import ChordContainer
-    return isinstance(elt, note) or isinstance(elt, ChordContainer)
-
-def is_direction(elt):
-    from resources.musicxml import direction
-    return isinstance(elt, direction)
 
 def partition_by_offset(elts, offset):
     lesser, greater, = [], []

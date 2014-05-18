@@ -1,5 +1,7 @@
 class LyricMixin(object):
 
+    # TODO: default_y, elision
+    
     @property
     def is_continued(self):
         if self.syllabic is not None:
@@ -25,14 +27,5 @@ class LyricMixin(object):
     @property
     def lilypond_format(self):
         return '"{}"{}'.format(self.lyric_text, self.extension)
-
-    # @property
-    # def extension(self):
-    #     extension = ''
-    #     if self.syllabic.is_continued:
-    #         extension = '--'
-    #     if self.extend.value:
-    #         extension = '__'
-    #     return extension
 
 

@@ -18,5 +18,4 @@ class PartGroupMixin(object):
 
     @property
     def score_block_format(self):
-        print self.group_name, self.group_abbreviation
         return ''

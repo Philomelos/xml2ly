@@ -37,18 +37,20 @@ def offset_increment(elt):
 def set_measure_list_offsets(measure_list):
     last_divisions = None
     for measure in measure_list:
+
         offset = 0
-        next_new_offset = 0
         new_elements = []
         for elt in measure.elements:
             # print offset_increment(elt), elt, elt.attributes.divisions
 
             # only use 'next_new_offset' if elt increments counter
             if offset_increment(elt) is not None:
-                elt.measure_offset = next_new_offset
+                elt.measure_offset = offset
                 time_modification = elt.time_modification_as_fraction
-                next_new_offset = offset + (elt.duration_as_fraction / time_modification) * offset_increment(elt)
-                offset = next_new_offset
+                offset = offset + ((elt.duration_as_fraction / time_modification) * offset_increment(elt))
+                # offset = offset + elt.duration_as_fraction
+                # if offset > 1:
+                #     print offset, elt.duration_as_fraction, elt.time_modification_as_fraction
 
             elif isinstance(elt, direction):
                 elt.measure_offset = offset + (Fraction(1,4) * elt.offset_as_fraction)

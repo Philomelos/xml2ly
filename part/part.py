@@ -2,6 +2,7 @@ from group_chords import group_chords
 from group_grace_notes import group_grace_notes
 from set_note_attributes import set_note_attributes
 from associate_directions_with_note_events import associate_directions_with_note_events
+from add_skips_to_voice import add_skips_to_voice
 from set_measure_list_offsets import set_measure_list_offsets
 from resources.musicxml import (
     note,
@@ -118,17 +119,23 @@ class PartMixin(object):
 
         measures = self.get_measures()
         set_note_attributes(measures)
-        set_measure_list_offsets(measures)
 
         for measure in measures:
             measure.elements = group_chords(measure.elements)
             measure.elements = group_grace_notes(measure.elements)
 
+        set_measure_list_offsets(measures)
         measures = associate_directions_with_note_events(measures)
         voices = self.group_voices(measures)
 
-        self.voices = voices
+        for voice in voices:
+            voice.measures = add_skips_to_voice(voice)
+        # for voice in voices:
+        #     for measure in voice.measures:
+        #         for elt in measure.elements:
+        #             print elt.measure_offset, elt
 
+        self.voices = voices
         # for measure in self.voices[0].measures:
         #     for elt in measure.elements:
         #         # only notes and chords -- how to deal with the other objects?

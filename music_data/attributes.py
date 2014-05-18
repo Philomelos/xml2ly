@@ -10,9 +10,11 @@ class ElementAttributes(object):
     def __init__(self,
                  divisions=None,
                  clef=None,
+                 time=None
                  ):
         self.divisions=divisions
         self.clef=clef
+        self.time=time
 
     def update(self, measure_attributes):
         if measure_attributes:

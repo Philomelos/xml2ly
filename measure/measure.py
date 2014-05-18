@@ -1,5 +1,6 @@
 from resources.musicxml import note
 from music_data.chord_container import ChordContainer
+from music_data.skip import Skip
 from part.group_chords import group_chords
 
 class Measure(object):
@@ -12,16 +13,42 @@ class Measure(object):
         self.elements = group_chords(self.elements)
 
     def filter_non_printing_objects(self, objects):
-        non_printing = lambda x: x is not None and isinstance(x, (note, ChordContainer))
-        return filter(lambda x: non_printing(x), objects)
+        printing = lambda x: x is not None and isinstance(x, (note, ChordContainer, Skip))
+        return filter(lambda x: printing(x), objects)
 
     @property
     def lilypond_format(self):
         result = self.filter_non_printing_objects(self.elements)
         return ' '.join([x.lilypond_format for x in result])
 
+    @property
+    def beats(self):
+        try:
+            return int(self.attributes[0].time[0].beats[0])
+        except:
+            return None
+
+    @property
+    def beat_type(self):
+        try:
+            return int(self.attributes[0].time[0].beat_type[0])
+        except:
+            return None
+
+    @property
+    def time_signature(self):
+        beats, beat_type = self.beats, self.beat_type
+        if beats and beat_type:
+            return (beats, beat_type)
+
     def copy(self):
         copy = Measure()
         for var in vars(self):
             setattr(copy, var, getattr(self, var))
         return copy
+
+    @property
+    def has_any_durated_element(self):
+        from resources.musicxml import note
+        from music_data.chord_container import ChordContainer
+        return any([isinstance(x, (note, ChordContainer)) for x in self.elements])
