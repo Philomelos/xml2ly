@@ -18,7 +18,7 @@ class ScorePartMixin(object):
         if self.part_abbreviation_display is not None:
             return ''.join(x.value() for x in self.part_abbreviation_display.display_text[:])
         else:
-            return self.part_abbreviation.value()
+            return self.part_abbreviation
 
     # @property
     # def score_block_format(self):
