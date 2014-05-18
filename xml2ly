@@ -43,6 +43,7 @@ from music_data.slur import SlurMixin
 from music_data.glissando import GlissandoMixin
 from music_data.directions.dynamics import DynamicsMixin
 from music_data.directions.wedge import WedgeMixin
+from music_data.lyric import LyricMixin
 from music_data.directions.words import WordsMixin 
 from music_data.beam import BeamMixin
 from score_partwise.score_partwise import ScorePartWiseMixin
@@ -54,6 +55,7 @@ def register_mixins(dom_object):
         resources.musicxml.attributes: (AttributesMixin, object),
         resources.musicxml.backup    : (BackupMixin, object),
         resources.musicxml.barline   : (BarlineMixin, object),
+        resources.musicxml.lyric   : (LyricMixin, object),
         resources.musicxml.tuplet   : (TupletMixin, object),
         resources.musicxml.credit    : (CreditMixin, object),
         resources.musicxml.direction : (DirectionMixin, object),
@@ -101,6 +103,7 @@ dom = file_to_xml_dom_object(filename)
 register_mixins(dom)
 
 print dom.format_parts()
+print dom.format_lyrics()
 print dom.format_score_block()
 # for part in dom.part[:]:
 #     print part.lilypond_score_representation
@@ -109,6 +112,7 @@ if __name__ == '__main__':
 
     with open(output_file_name, 'w') as outfile:
         outfile.write(dom.format_parts())
+        outfile.write(dom.format_lyrics())
         outfile.write(dom.format_score_block())
 
 # print dom.format_header()  # HeaderMixin

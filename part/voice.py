@@ -13,8 +13,7 @@ class Voice(object):
         for measure in self.measures:
             for elt in measure.elements:
                 result.append(elt)
-        return result
-                
+        return result 
 
     @property
     def voice_label(self):
@@ -42,6 +41,31 @@ class Voice(object):
     def lilypond_format(self):
         return ''.join(self.parameters)
 
+    @property
+    def format_lyrics(self):
+
+        label = '"Part_{part_id}_Voice_{voice_name}_{lyric_verse}" = \\lyricmode {{ \n'
+
+        result = []
+        for lyric_part in self.get_all_lyric_numbers():
+            result.append(
+                label.format(part_id=self.part.part_id,
+                             voice_name=self.name,
+                             lyric_verse=lyric_part))
+            result.append('\\set ignoreMelismata = ##t')
+            for elt in self.music_events:
+                if hasattr(elt, 'lyrics'):
+                    lyric = filter(lambda x: x.number == lyric_part, elt.lyrics)
+                    if lyric:
+                        result.append(lyric[0].lilypond_format)
+                    else:
+                        if not elt.rest:
+                            result.append('\\skip1')
+            result.append('\n } \n')
+        return ' '.join(result)
+
+        
+
     def print_score_representation(self):
         label = '"Part_{part_id}_Voice_{voice_name}"'.format(
             part_id=self.part.part_id,
@@ -55,19 +79,20 @@ class Voice(object):
             part_id=self.part.part_id,
             voice_name=self.name)
 
-        # lyric_part_label = '\\"Part_{part_id}_Voice_{voice_name}_{lyric_verse}"'
-        # printer.newline()
-        # if self.get_all_lyric_numbers():
-        #     for lyric_part in self.get_all_lyric_numbers():
-        #         printer.dump('\\new Lyrics \lyricsto')
-        #         printer.dump(label)
-        #         printer.dump(
-        #             lyric_part_label.format(
-        #                 part_id=self.part.part_id,
-        #                 voice_name=self.name,
-        #                 lyric_verse=lyric_part))
+        lyric_part_label = '\\"Part_{part_id}_Voice_{voice_name}_{lyric_verse}"'
+        result = []
+        if self.get_all_lyric_numbers():
+            for lyric_part in self.get_all_lyric_numbers():
+                result.append('\\new Lyrics \lyricsto')
+                result.append(label)
+                result.append(
+                    lyric_part_label.format(
+                        part_id=self.part.part_id,
+                        voice_name=self.name,
+                        lyric_verse=lyric_part))
+        result = ' '.join(result)
 
-        return ' '.join([cmd, label, var])
+        return ' '.join([cmd, label, var, result])
 
     @property
     def lilypond_score_representation(self):
@@ -83,26 +108,4 @@ class Voice(object):
             if lyric_numbers:
                 result.extend(lyric_numbers)
         return sorted(set(result))
-
-    def print_lyrics(self, printer):
-
-        label = '"Part_{part_id}_Voice_{voice_name}_{lyric_verse}" = \\lyricmode'
-
-        for lyric_part in self.get_all_lyric_numbers():
-            printer.dump(
-                label.format(part_id=self.part.part_id,
-                             voice_name=self.name,
-                             lyric_verse=lyric_part))
-            printer.open_expression()
-            printer.dump('\\set ignoreMelismata = ##t')
-            for elt in self.music_events:
-                if hasattr(elt, 'lyrics'):
-                    lyric = filter(lambda x: x.number == lyric_part,
-                                   elt.lyrics)
-                    if lyric:
-                        lyric[0].print_ly(printer)
-                    else:
-                        if not elt.rest:
-                            printer.dump('\\skip1')
-            printer.close_expression()
 

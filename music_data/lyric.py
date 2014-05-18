@@ -1,0 +1,38 @@
+class LyricMixin(object):
+
+    @property
+    def is_continued(self):
+        if self.syllabic is not None:
+            return self.syllabic[0] in ('begin', 'middle')
+
+    @property
+    def is_extended(self):
+        return self.extend_ is not None
+
+    @property
+    def extension(self):
+        extension = ''
+        if self.is_continued:
+            extension = '--'
+        if self.is_extended:
+            extension = '__'
+        return extension
+
+    @property
+    def lyric_text(self):
+        return self.text[:][0].value()
+    
+    @property
+    def lilypond_format(self):
+        return '"{}"{}'.format(self.lyric_text, self.extension)
+
+    # @property
+    # def extension(self):
+    #     extension = ''
+    #     if self.syllabic.is_continued:
+    #         extension = '--'
+    #     if self.extend.value:
+    #         extension = '__'
+    #     return extension
+
+

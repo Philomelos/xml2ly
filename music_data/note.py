@@ -168,6 +168,17 @@ class NoteMixin(object):
             )
 
     @property
+    def lyrics(self):
+        return self.lyric[:]
+
+    @property
+    def lyric_numbers(self):
+        result = []
+        for lyric in self.lyrics:
+            result.append(lyric.number)
+        return result
+
+    @property
     def lilypond_format(self, indent=0):
         result = []
 
@@ -178,7 +189,7 @@ class NoteMixin(object):
 
         if self.graces:
             result.append(self.graces.lilypond_format)
-            
+
         if self.is_pitched:
             result.append('{}{}'.format(
                 self.pitch.lilypond_format,

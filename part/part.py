@@ -87,6 +87,13 @@ class PartMixin(object):
     def lilypond_format(self):
         return ' '.join(self.parameters)
 
+    @property
+    def format_lyrics(self):
+        result = []
+        for voice in self.voices:
+            result.append(voice.format_lyrics)
+        return ''.join(result)
+
     # @property
     # def lilypond_score_representation(self):
     #     result = []

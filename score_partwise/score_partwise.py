@@ -20,6 +20,12 @@ class ScorePartWiseMixin(object):
             result.append(part.lilypond_format)
         return '\n'.join(result)
 
+    def format_lyrics(self):
+        result = []
+        for part in self.parts:
+            result.append(part.format_lyrics)
+        return '\n'.join(result)
+
     def format_score_block(self):
         result = []
 
