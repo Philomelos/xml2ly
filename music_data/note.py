@@ -199,10 +199,20 @@ class NoteMixin(object):
             pass
 
     @property
+    def slurs(self):
+        from music_data.slur import SlurList
+        for notation in self.notations:
+            try:
+                return SlurList(notation.slur[:])
+            except IndexError as e:
+                pass
+
+    @property
     def format_contributions(self):
         return (
             self.tie_element,
             self.beam_element,
+            self.slurs,
             self.tuplets,
             self.directions,
             )
