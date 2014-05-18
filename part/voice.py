@@ -22,11 +22,24 @@ class Voice(object):
                               voice_name=self.name)
         return label
 
+    def is_music_element(self, elt):
+        from resources.musicxml import note
+        from music_data.chord_container import ChordContainer
+        return isinstance(elt, (note, ChordContainer)) and not elt.is_non_printing_object
+
+    @property
+    def has_music(self):
+        for measure in self.measures:
+            for elt in measure.elements:
+                if self.is_music_element(elt):
+                    return True
+
     @property
     def lily_measures(self):
         result = []
-        for elt in self.measures:
-            result.append(elt.lilypond_format)
+        if self.has_music:
+            for elt in self.measures:
+                result.append(elt.lilypond_format)
         return ' '.join(result)
 
     @property

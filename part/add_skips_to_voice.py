@@ -37,7 +37,7 @@ def add_skips_to_voice(voice):
                 new_elements.append(elt)
 
             # ...then, append the Skip, filling the measure completely.
-            skip = Skip(duration=Fraction(*curr_time_signature))
+            skip = Skip(duration=curr_time_signature.duration_as_fraction)
             new_elements.append(skip)
 
         # CASE #2: There are one or more durated elements in this measure.

@@ -5,7 +5,7 @@ from measure.measure import Measure
 def partition_by_offset(elts, offset):
     lesser, greater, = [], []
     for elt in elts:
-        if elt.offset <= offset:
+        if elt.measure_offset <= offset:
             lesser.append(elt)
         else:
             greater.append(elt)
@@ -30,7 +30,7 @@ def associate_directions_with_note_events(measure_list):
         for elt in measure.elements:
             # If elt is a NoteElement, check if there are any pending
             # directions to collect
-            if is_note_or_chord(elt):
+            if is_note_or_chord(elt) and not elt.is_non_printing_object:
                 elt.directions = DirectionsRegister()
                 last_note_event = elt
                 # Attach Directions if their offset is greater than

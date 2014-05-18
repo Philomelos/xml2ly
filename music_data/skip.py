@@ -7,6 +7,10 @@ class Skip(object):
         self.duration=duration
 
     @property
+    def duration_as_fraction(self):
+        return self.duration
+
+    @property
     def lilypond_format(self):
         result = fraction_to_lily_string(Fraction(self.duration))
         return '\\skip{}'.format(result) 

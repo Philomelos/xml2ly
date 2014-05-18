@@ -71,3 +71,7 @@ class ChordContainer(object):
     @measure_offset.setter
     def measure_offset(self, value):
         self.elements[0].measure_offset = value
+
+    @property
+    def is_non_printing_object(self):
+        return self.elements[0].is_non_printing_object

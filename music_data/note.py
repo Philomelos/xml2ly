@@ -202,6 +202,7 @@ class NoteMixin(object):
             from music_data.skip import Skip
             skip = Skip(self.duration_as_fraction)
             result.append(skip.lilypond_format)
+
         else:
             if self.is_pitched:
                 result.append('{}{}'.format(

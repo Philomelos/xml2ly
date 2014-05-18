@@ -48,7 +48,8 @@ class Measure(object):
     @property
     def printing_elements(self):
         printing = lambda x: isinstance(x, (note, ChordContainer, Skip))
-        return filter(lambda x: printing(x), self.elements)
+        elements = filter(lambda x: printing(x), self.elements) 
+        return elements
 
     @property
     def lilypond_format(self):

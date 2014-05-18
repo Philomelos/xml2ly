@@ -1,9 +1,4 @@
-def is_note(elt):
-    from resources.musicxml import note
-    return isinstance(elt, note)
-
-def is_chord(elt):
-    return is_note(elt) and elt.chord
+from utilities import is_note, is_chord
 
 def is_group(lst):
     return len(lst) > 1

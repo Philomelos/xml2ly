@@ -11,11 +11,7 @@ from resources.musicxml import (
     )
 from resources.musicxml import direction
 from get_staff_type import get_staff_type
-
-def is_note_or_chord(elt):
-    from resources.musicxml import note
-    from music_data.chord_container import ChordContainer
-    return isinstance(elt, note) or isinstance(elt, ChordContainer)
+from utilities import is_note_or_chord
 
 def filter_by_voice_name(measure_list, voice_name):
     from copy import deepcopy
@@ -29,8 +25,8 @@ def filter_by_voice_name(measure_list, voice_name):
             if is_note_or_chord(elt):
                 if elt.voice == voice_name:
                     new_measure.elements.append(elt)
-            else:
-                new_measure.elements.append(elt)
+            # else:
+            #     new_measure.elements.append(elt)
         result.append(new_measure)
     voice = Voice(name=voice_name, measures=result)
     return voice
@@ -86,7 +82,11 @@ class PartMixin(object):
 
     @property
     def lilypond_format(self):
-        return ' '.join(self.parameters)
+        if self.part_id:
+            return ' '.join(self.parameters)
+        else:
+            ' '.join(self.parameters)
+            return ''
 
     @property
     def format_lyrics(self):
@@ -126,6 +126,7 @@ class PartMixin(object):
 
         set_measure_list_offsets(measures)
         measures = associate_directions_with_note_events(measures)
+
         voices = self.group_voices(measures)
 
         for voice in voices:

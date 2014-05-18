@@ -6,12 +6,7 @@ from resources.musicxml import (
     direction,
     )
 from music_data.chord_container import ChordContainer
-
-def is_note_or_chord(elt):
-    return isinstance(elt, note) or isinstance(elt, ChordContainer)
-
-def is_chord(elt):
-    return is_note(elt) and elt.chord
+from utilities import is_note_or_chord, is_chord
 
 def is_grace(elt):
     return hasattr(elt, 'grace') and elt.is_grace
