@@ -23,7 +23,7 @@ def filter_by_voice_name(measure_list, voice_name):
         new_measure.elements = []
         for elt in elts:
             if is_note_or_chord(elt):
-                if elt.voice == voice_name:
+                if elt.lily_voice == voice_name:
                     new_measure.elements.append(elt)
             # else:
             #     new_measure.elements.append(elt)
@@ -42,8 +42,8 @@ class PartMixin(object):
         voice_numbers = []
         for measure in measures:
             for elt in measure.elements:
-                if isinstance(elt, note):
-                    voice = elt.voice
+                if is_note_or_chord(elt):
+                    voice = elt.lily_voice
                     if voice is not None and not voice in voice_numbers:
                         voice_numbers.append(voice)
 
