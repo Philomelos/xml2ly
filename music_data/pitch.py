@@ -1,5 +1,6 @@
 from resources.musicxml import pitch
 
+
 class PitchMixin(object):
 
     @property
@@ -21,7 +22,24 @@ class PitchMixin(object):
         else:
             return 0
 
-    def transposed (self, interval):
+    @property
+    def lilypond_format(self):
+        pitch = LilyPitch(
+            step=self.xml_step,
+            alteration=self.xml_alteration,
+            octave=self.xml_octave,
+        )
+        return pitch.lilypond_format
+
+
+class LilyPitch(object):
+
+    def __init__(self, step=0, alteration=0, octave=0):
+        self.step=step
+        self.alteration=alteration
+        self.octave=octave
+
+    def transposed(self, interval):
         c = self.copy ()
         c.alteration += interval.alteration
         c.step += interval.step
@@ -31,12 +49,12 @@ class PitchMixin(object):
         c.alteration += target_st - c.semitones()
         return c
 
-    def normalize (c):
-        while c.step < 0:
-            c.step += 7
-            c.octave -= 1
-        c.octave += c.step / 7
-        c.step = c.step % 7
+    def normalize(self):
+        while self.step < 0:
+            self.step += 7
+            self.octave -= 1
+        self.octave += self.step / 7
+        self.step = self.step % 7
 
     def lisp_expression (self):
         return '(ly:make-pitch %s %s %s)' % (self.octave,
@@ -44,10 +62,10 @@ class PitchMixin(object):
                                              self.alteration)
 
     def copy (self):
-        p = pitch ()
-        p.alteration = Alteration(self.alteration)
-        p.step = Step(self.step)
-        p.octave = Octave(self.octave)
+        p = LilyPitch()
+        p.alteration = self.alteration
+        p.step = self.step
+        p.octave = self.octave
         p._force_absolute_pitch = True
         return p
 
@@ -84,7 +102,7 @@ class PitchMixin(object):
         return a
 
     def absolute_pitch (self):
-        octave = self.xml_octave
+        octave = self.octave
         if octave >= 0:
             return "'" * (octave + 1)
         elif octave < -1:
@@ -105,6 +123,7 @@ class PitchMixin(object):
         str = self.ly_step_expression()
         str += self.absolute_pitch ()
         return str
+
 
 def interpret_alter_element(elt):
     alter = 0
@@ -140,19 +159,19 @@ def generic_tone_to_pitch (tone):
 # Implement the different note names for the various languages
 def pitch_generic (pitch, notenames, accidentals):
 
-    str = notenames[pitch.xml_step]
-    halftones = int (pitch.xml_alteration)
+    str = notenames[pitch.step]
+    halftones = int (pitch.alteration)
     if halftones < 0:
         str += accidentals[0] * (-halftones)
-    elif pitch.xml_alteration > 0:
+    elif pitch.alteration > 0:
         str += accidentals[3] * (halftones)
     # Handle remaining fraction to pitch.alteration (for microtones)
-    if (halftones != pitch.xml_alteration):
+    if (halftones != pitch.alteration):
         if None in accidentals[1:3]:
             pass
         else:
             try:
-                str += {-0.5: accidentals[1], 0.5: accidentals[2]}[pitch.xml_alteration - halftones]
+                str += {-0.5: accidentals[1], 0.5: accidentals[2]}[pitch.alteration - halftones]
             except KeyError:
                 pass
     return str

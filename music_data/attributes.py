@@ -10,10 +10,12 @@ class ElementAttributes(object):
     def __init__(self,
                  divisions=None,
                  clef=None,
-                 time=None
+                 time=None,
+                 key=None,
                  ):
         self.divisions=divisions
         self.clef=clef
+        self.key=key
         self.time=time
 
     def update(self, measure_attributes):

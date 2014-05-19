@@ -89,7 +89,7 @@ class NoteMixin(object):
 
     @property
     def lily_voice(self):
-        return self.voice
+        return self.voice or 1
 
     @property
     def lily_note_type(self):

@@ -33,6 +33,13 @@ class Measure(object):
         if beats and beat_type:
             return TimeSignature(beats, beat_type)
 
+    @property
+    def key_signature(self):
+        try:
+            return self.attributes[0].key[0]
+        except IndexError:
+            return None
+
     def copy(self):
         copy = Measure()
         for var in vars(self):
@@ -54,6 +61,7 @@ class Measure(object):
     @property
     def lilypond_format(self):
         result = []
+        result.append(self.key_signature)
         result.append(self.time_signature)
         result.extend(self.printing_elements)
         result = filter(lambda x: x is not None, result)
