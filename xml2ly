@@ -1,4 +1,4 @@
-#!/Users/fredrik/repos/xml2ly/env/bin/python2.7
+#!env/bin/python2.7
 import sys
 
 import pyxb
@@ -48,6 +48,7 @@ from music_data.directions.words import WordsMixin
 from music_data.beam import BeamMixin
 from music_data.tie import TieMixin
 from music_data.clef import ClefMixin
+from music_data.key_signature import KeySignatureMixin
 from score_partwise.score_partwise import ScorePartWiseMixin
 
 
@@ -78,6 +79,7 @@ def register_mixins(dom_object):
         resources.musicxml.sound     : (SoundMixin, object),
         resources.musicxml.formatted_text     : (WordsMixin, object),
         resources.musicxml.wedge     : (WedgeMixin, object),
+        resources.musicxml.key     : (KeySignatureMixin, object),
         }
 
     for cls, interface in interfaces.iteritems():
