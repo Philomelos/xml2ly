@@ -1,4 +1,3 @@
-#!env/bin/python2.7
 import sys
 
 import pyxb
@@ -117,10 +116,17 @@ print dom.format_score_block()
 
 if __name__ == '__main__':
 
+    from formatting.indentation import format_text
     with open(output_file_name, 'w') as outfile:
-        outfile.write(dom.format_parts())
-        outfile.write(dom.format_lyrics())
-        outfile.write(dom.format_score_block())
+        result = []
+        result.append(dom.format_paper_block())
+        result.append(dom.format_parts())
+        result.append(dom.format_lyrics())
+        result.append(dom.format_score_block())
+        result = '\n'.join(result)
+        outfile.write(format_text(result))
+
+        
 
 # print dom.format_header()  # HeaderMixin
 # print dom.format_paper_block()  # HeaderMixin
