@@ -47,6 +47,7 @@ from music_data.lyric import LyricMixin
 from music_data.directions.words import WordsMixin 
 from music_data.beam import BeamMixin
 from music_data.tie import TieMixin
+from music_data.clef import ClefMixin
 from score_partwise.score_partwise import ScorePartWiseMixin
 
 
@@ -67,6 +68,7 @@ def register_mixins(dom_object):
         resources.musicxml.beam      : (BeamMixin, object),
         resources.musicxml.tie      : (TieMixin, object),
         resources.musicxml.tied      : (TieMixin, object),
+        resources.musicxml.clef      : (ClefMixin, object),
         resources.musicxml.glissando      : (GlissandoMixin, object),
         resources.musicxml.part_group: (PartGroupMixin, object),
         resources.musicxml.pitch     : (PitchMixin, object),

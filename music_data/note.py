@@ -208,8 +208,16 @@ class NoteMixin(object):
                 pass
 
     @property
+    def clefs(self):
+        from music_data.clef import ClefList
+        clef_list = ClefList(lily_voice=self.lily_voice,
+                             elements=self.attributes.clef[:])
+        return clef_list
+
+    @property
     def format_contributions(self):
         return (
+            self.clefs,
             self.tie_element,
             self.beam_element,
             self.slurs,
