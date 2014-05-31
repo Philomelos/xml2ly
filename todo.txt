@@ -1,0 +1,70 @@
+1.
+Format/Indent
+2.
+Non-standard key signatures
+3.
+Aftergraces
+4.
+Rewrite PitchRewrite inherited code (when necessary).
+5.
+Avoid printing "MusicXML Part" as instrument name?
+6. DONE
+Key Signatures
+7.
+before_note/after_note - cleanupLet note class take care of before/after slots instead of having this logic all over the place. Slurs, beams etc. should only return from lilypond_format; the positioning of these strings should be controlled by the parent.
+8.
+Add exception tests
+9.
+Transposition
+10.
+Add parts to part_list if necessary
+11.
+Strip whitespace when only white space is given as return value
+12.
+Decide what methods should be properties
+13.
+clean up music_data.pitch.py
+14.
+Cross staff notes and chords
+15. DONE
+Deal with hidden notes aimed for midi playback only (ActorPreludeSample.xml)Why are some crescendo attached to non-printing objects? Disallow this behavior in part.associate_directions_with_note_events?
+16.
+Clean up note.lilypond_format
+17.
+Move utility functions to utilities.py
+18. DONE
+Hide empty parts
+19. DONE
+Check association of directions with elements
+20. DONE
+Clefs
+21.
+Naming conventionsCollectors: formatted_music, formatted_lyrics, formatted_score_representation etc.
+Lowest level: lilypond_format.
+Use properties for everything.
+22. DONE
+Lyrics
+23. DONE
+Tuplet time-modificationWhen tuplet has no element <tuplet-actual>, get values from note.time_modification instead.
+24.
+Part groups -- correctly display part_group names and abbreviated part_group names.
+25.
+Parse command line arguments
+26.
+StemsAlways get stem direction from MusicXML file.
+27.
+Noteheads
+28. DONE
+Define common interface for all spanners
+29.
+Paper variables
+30. DONE
+Add skips to voice
+31. DONE
+Time signatures
+32. DONE
+Ties
+33. DONE
+Slurs
+34. DONE
+Beams
