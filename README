@@ -12,3 +12,5 @@ fred:xml2ly fredrik$ source env/bin/activate
 
 4. Once we're inside the virtualenv, we can install the requirements:
 (env)fred:xml2ly fredrik$ pip install -r requirements.txt 
+
+5. Now we can exit the virtualenv and call the shell wrapper 'xml2ly.sh' directly from anywhere on the system. 

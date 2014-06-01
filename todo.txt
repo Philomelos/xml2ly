@@ -68,3 +68,4 @@ Ties
 Slurs
 34. DONE
 Beams
+35. Automate install
