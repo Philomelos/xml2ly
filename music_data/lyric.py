@@ -22,7 +22,9 @@ class LyricMixin(object):
 
     @property
     def lyric_text(self):
-        return self.text[:][0].value()
+        # TODO: catch non-ascii characters and encode them
+        # return self.text[:][0].value().encode('utf-8')
+        return 'Lo'
     
     @property
     def lilypond_format(self):

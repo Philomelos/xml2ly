@@ -65,4 +65,4 @@ class Measure(object):
         result.append(self.time_signature)
         result.extend(self.printing_elements)
         result = filter(lambda x: x is not None, result)
-        return ' '.join([x.lilypond_format for x in result])
+        return ''.join([x.lilypond_format for x in result])

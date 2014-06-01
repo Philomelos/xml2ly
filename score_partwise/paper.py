@@ -3,9 +3,14 @@ class PaperMixin(object):
     @property
     def default_global_staff_size(self):
         return 20
+
+    @property
+    def default_tenths_to_millimeters_ratio(self):
+        return 0.175
     
     @property
     def global_staff_size(self):
+        print self.defaults.scaling.millimeters, '*****'
         return '#(set-global-staff-size 18.1428571429)'
 
     @property

@@ -19,7 +19,7 @@ class TimeSignature(object):
     @property
     def lilypond_format(self):
         if self.numerator and self.denominator:
-            result = '\n\\time {num}/{denom}\n'
+            result = '\\time {num}/{denom} '
             return result.format(num=self.numerator, denom=self.denominator)
 
     @property

@@ -40,7 +40,6 @@ class KeySignatureMixin(object):
             for x in range(fifths):
                 tonic = tonic.transposed(transposer)
             tonic.normalize()
-            print tonic.step, tonic.ly_step_expression(), self.mode 
             return tonic
 
     @property

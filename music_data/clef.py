@@ -49,7 +49,7 @@ class ClefMixin(object):
 
     @property
     def before_note(self):
-        return '\n\\clef "{}{}"\n'.format(self.clef_name, self.octave_modifier)
+        return '\\clef "{}{}"'.format(self.clef_name, self.octave_modifier)
 
     @property
     def after_note(self):
