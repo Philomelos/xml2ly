@@ -127,7 +127,7 @@ if __name__ == '__main__':
     print dom.format_lyrics()
     print dom.format_score_block()
 
-    from formatting.indentation import format_text
+    # from formatting.indentation import format_text
     with open(output_file_name, 'w') as outfile:
         result = []
         result.append(dom.format_paper_block())
@@ -135,7 +135,8 @@ if __name__ == '__main__':
         result.append(dom.format_lyrics())
         result.append(dom.format_score_block())
         result = '\n'.join(result)
-        outfile.write(format_text(result))
+        # outfile.write(format_text(result))
+        outfile.write(result)
 
         
 
