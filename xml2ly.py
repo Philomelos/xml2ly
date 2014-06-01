@@ -5,10 +5,8 @@ import sys
 import pyxb
 import pyxb.utils.domutils as domutils
 
-
 pyxb.RequireValidWhenParsing(False)
 pyxb.RequireValidWhenGenerating(False)
-
 
 def file_to_xml_dom_object(filename):
 
@@ -88,35 +86,46 @@ def register_mixins(dom_object):
         cls.__bases__ = new_bases
 
     # Track and register "anonymous" classes
-    part_cls = dom_object.part[:][0].__class__
-    part_cls.__name__ = 'part'
-    part_cls.__bases__ = (PartMixin, object)
-    measure_cls = dom_object.part[:][0].measure[:][0].__class__
-    measure_cls.__name__ = 'measure'
-    score_cls = dom_object
-    score_cls.__name__ = 'score_partwise'
-    score_cls.__class__.__bases__ = (
-        HeaderMixin,
-        LayoutMixin,
-        PaperMixin,
-        ScorePartWiseMixin,
-        object)
+    try:
+        part_cls = dom_object.part[:][0].__class__
+        part_cls.__name__ = 'part'
+        part_cls.__bases__ = (PartMixin, object)
+    except:
+        pass
 
+    try:
+        measure_cls = dom_object.part[:][0].measure[:][0].__class__
+        measure_cls.__name__ = 'measure'
+    except:
+        pass
 
-import os
-filename = sys.argv[1]
-output_file_name = os.path.splitext(os.path.basename(filename))[0] + '.ly'
+    try:
+        score_cls = dom_object
+        score_cls.__name__ = 'score_partwise'
+        score_cls.__class__.__bases__ = (
+            HeaderMixin,
+            LayoutMixin,
+            PaperMixin,
+            ScorePartWiseMixin,
+            object)
+    except:
+        pass
 
-dom = file_to_xml_dom_object(filename)
-register_mixins(dom)
-
-print dom.format_parts()
-print dom.format_lyrics()
-print dom.format_score_block()
 # for part in dom.part[:]:
 #     print part.lilypond_score_representation
 
 if __name__ == '__main__':
+
+    import os
+    filename = sys.argv[1]
+    output_file_name = os.path.splitext(os.path.basename(filename))[0] + '.ly'
+
+    dom = file_to_xml_dom_object(filename)
+    register_mixins(dom)
+
+    print dom.format_parts()
+    print dom.format_lyrics()
+    print dom.format_score_block()
 
     from formatting.indentation import format_text
     with open(output_file_name, 'w') as outfile:
