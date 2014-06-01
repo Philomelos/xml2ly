@@ -43,7 +43,7 @@ from music_data.glissando import GlissandoMixin
 from music_data.directions.dynamics import DynamicsMixin
 from music_data.directions.wedge import WedgeMixin
 from music_data.lyric import LyricMixin
-from music_data.directions.words import WordsMixin 
+from music_data.directions.words import WordsMixin
 from music_data.beam import BeamMixin
 from music_data.tie import TieMixin
 from music_data.clef import ClefMixin
@@ -127,7 +127,7 @@ if __name__ == '__main__':
     print dom.format_lyrics()
     print dom.format_score_block()
 
-    # from formatting.indentation import format_text
+    from formatting.indentation import format_text
     with open(output_file_name, 'w') as outfile:
         result = []
         result.append(dom.format_paper_block())
@@ -135,10 +135,10 @@ if __name__ == '__main__':
         result.append(dom.format_lyrics())
         result.append(dom.format_score_block())
         result = '\n'.join(result)
-        # outfile.write(format_text(result))
+        outfile.write(format_text(result))
         outfile.write(result)
 
-        
+
 
 # print dom.format_header()  # HeaderMixin
 # print dom.format_paper_block()  # HeaderMixin
@@ -159,9 +159,9 @@ if __name__ == '__main__':
 #       \new Staff = "Staff_1" <<
 #         \set Staff.instrumentName =  "Soprano"
 #         \set Staff.shortInstrumentName =  "S"
-        
+
 #         \context Voice = "Part_P1_Voice_1" { \"Part_P1_Voice_1" }
-        
+
 #         \context Voice = "Part_P1_Voice_2" { \"Part_P1_Voice_2" }
-        
+
 #         >>
