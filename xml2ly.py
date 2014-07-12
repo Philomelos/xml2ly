@@ -1,5 +1,7 @@
 #!env/bin/python
 
+import argparse
+import os
 import sys
 
 import pyxb
@@ -111,21 +113,18 @@ def register_mixins(dom_object):
     except:
         pass
 
-# for part in dom.part[:]:
-#     print part.lilypond_score_representation
+def main():
+    parser = argparse.ArgumentParser()
 
-if __name__ == '__main__':
+    parser.add_argument('infile', action='store')
+    parser.add_argument('-o', dest='outfile', action='store', required=False)
+    args = parser.parse_args()
 
-    import os
-    filename = sys.argv[1]
-    output_file_name = os.path.splitext(os.path.basename(filename))[0] + '.ly'
+    infile = args.infile
+    output_file_name = os.path.splitext(os.path.basename(infile))[0] + '.ly'
 
-    dom = file_to_xml_dom_object(filename)
+    dom = file_to_xml_dom_object(infile)
     register_mixins(dom)
-
-    print dom.format_parts()
-    print dom.format_lyrics()
-    print dom.format_score_block()
 
     from formatting.indentation import format_text
     with open(output_file_name, 'w') as outfile:
@@ -139,29 +138,6 @@ if __name__ == '__main__':
         outfile.write(result)
 
 
+if __name__ == '__main__':
+    main()
 
-# print dom.format_header()  # HeaderMixin
-# print dom.format_paper_block()  # HeaderMixin
-# print dom.format_layout_block()  # HeaderMixin
-
-# for x in dom.parts[2].chords():
-#     print type(x)
-
-# for x in dom.parts[2].grouped_elements():
-#     print x, type(x)
-#     try:
-#         print x.grace_container.elements, '******'
-#     except:
-#         pass
-
-# \score {
-#   << \new StaffGroup <<
-#       \new Staff = "Staff_1" <<
-#         \set Staff.instrumentName =  "Soprano"
-#         \set Staff.shortInstrumentName =  "S"
-
-#         \context Voice = "Part_P1_Voice_1" { \"Part_P1_Voice_1" }
-
-#         \context Voice = "Part_P1_Voice_2" { \"Part_P1_Voice_2" }
-
-#         >>
